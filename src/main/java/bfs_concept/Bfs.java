@@ -11,11 +11,25 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+/* input
+5 6 2
+1 2
+1 3
+2 4
+3 4
+3 5
+4 5
+*/
+
+/* output
+2 1 4 3 5
+*/
+
 public class Bfs {
 
-	private static int N; // ³ëµåÀÇ °³¼ö
-	private static int E; // °£¼±ÀÇ °³¼ö
-	private static int S; // ½ÃÀÛ ³ëµåÀÇ ¹øÈ£
+	private static int N; // ë…¸ë“œì˜ ê°œìˆ˜
+	private static int E; // ê°„ì„ ì˜ ê°œìˆ˜
+	private static int S; // ì‹œì‘ ë…¸ë“œì˜ ë²ˆí˜¸
 	
 	private static int x;
 	private static int y;
@@ -24,7 +38,7 @@ public class Bfs {
 	
 	private static ArrayList<Integer> bfs;
 	
-	private static boolean[] visit; // ÀÌ¹Ì ¹æ¹®ÇÑ ³ëµåÀÇ Á¤º¸¸¦ ´ãÀ» ¹è¿­
+	private static boolean[] visit; // ì´ë¯¸ ë°©ë¬¸í•œ ë…¸ë“œì˜ ì •ë³´ë¥¼ ë‹´ì„ ë°°ì—´
 	
 	private static Queue<Integer> Q;
 	
@@ -45,7 +59,7 @@ public class Bfs {
 		
 		graph= new ArrayList[E+1];
 		
-		for(int i= 1; i <= E; i++) { // °¢ ³ëµå¿Í °£¼±À¸·Î ¿¬°áµÇ¾î ÀÖ´Â ³ëµåµé¿¡ ´ëÇÑ Á¤º¸¸¦ ´ãÀ» ¸®½ºÆ®¸¦ ÃÊ±âÈ­
+		for(int i= 1; i <= E; i++) { // ê° ë…¸ë“œì™€ ê°„ì„ ìœ¼ë¡œ ì—°ê²°ë˜ì–´ ìˆëŠ” ë…¸ë“œë“¤ì— ëŒ€í•œ ì •ë³´ë¥¼ ë‹´ì„ ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ˆê¸°í™”
 			graph[i]= new ArrayList<Integer>();
 		}
 		
@@ -54,11 +68,11 @@ public class Bfs {
 			x= Integer.parseInt(st.nextToken());
 			y= Integer.parseInt(st.nextToken());
 			
-			graph[x].add(y); // ¹æÇâ¼ºÀÌ ¾ø´Â ±×·¡ÇÁÀÌ±â ¶§¹®¿¡ ¿¬°áµÇ´Â ¾çÂÊ¿¡ ¼­·Î¿¡ ´ëÇÑ Á¤º¸¸¦ ³Ö¾îÁØ´Ù.
+			graph[x].add(y); // ë°©í–¥ì„±ì´ ì—†ëŠ” ê·¸ë˜í”„ì´ê¸° ë•Œë¬¸ì— ì—°ê²°ë˜ëŠ” ì–‘ìª½ì— ì„œë¡œì— ëŒ€í•œ ì •ë³´ë¥¼ ë„£ì–´ì¤€ë‹¤.
 			graph[y].add(x); 
 		}
 		
-		for(int i= 1; i <= E; i++) { // ¿¬°áµÈ °£¼± Á¤º¸¸¦ Á¤·Ä
+		for(int i= 1; i <= E; i++) { // ì—°ê²°ëœ ê°„ì„  ì •ë³´ë¥¼ ì •ë ¬
 			Collections.sort(graph[i]);
 		}
 		
@@ -74,15 +88,15 @@ public class Bfs {
 		visit= new boolean[E+1];
 		Q= new LinkedList<Integer>();
 		
-		Q.add(S); // ½ÃÀÛ³ëµå¸¦ Å¥¿¡ ³Ö´Â´Ù.
+		Q.add(S); // ì‹œì‘ë…¸ë“œë¥¼ íì— ë„£ëŠ”ë‹¤.
 		
-		visit[S]= true; // ½ÃÀÛ³ëµå¸¦ ¹æ¹®Çß´Ù´Â Á¤º¸¸¦ ÀúÀå
+		visit[S]= true; // ì‹œì‘ë…¸ë“œë¥¼ ë°©ë¬¸í–ˆë‹¤ëŠ” ì •ë³´ë¥¼ ì €ì¥
 		
-		while(!Q.isEmpty()) { // Å¥¿¡ ³ëµå°¡ ³²¾Æ ÀÖ´Ù¸é °è¼Ó ¼öÇà
-			int q= Q.poll(); // Å¥¿¡¼­ ³ëµå¸¦ »­
+		while(!Q.isEmpty()) { // íì— ë…¸ë“œê°€ ë‚¨ì•„ ìˆë‹¤ë©´ ê³„ì† ìˆ˜í–‰
+			int q= Q.poll(); // íì—ì„œ ë…¸ë“œë¥¼ ëºŒ
 			bfs.add(q);
 			
-			for(int i : graph[q]) { // Å¥¿¡¼­ »©³½ ³ëµåµé°ú ¿¬°áµÇ¾î ÀÖ´Â ³ëµåµéÀ» Å¥¿¡ ³Ö°í visit ¹è¿­¿¡ Ã¼Å© 
+			for(int i : graph[q]) { // íì—ì„œ ë¹¼ë‚¸ ë…¸ë“œë“¤ê³¼ ì—°ê²°ë˜ì–´ ìˆëŠ” ë…¸ë“œë“¤ì„ íì— ë„£ê³  visit ë°°ì—´ì— ì²´í¬ 
 				if(!visit[i]) {
 					Q.add(i);
 					visit[i]= true;
